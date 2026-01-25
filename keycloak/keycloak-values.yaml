@@ -1,0 +1,10 @@
+keycloak:
+  persistence:
+    enabled: true
+    storageClass: "longhorn" # Use your cluster's specific storage class
+    size: 10Gi
+postgresql:
+  persistence:
+    enabled: true
+    storageClass: "longhorn" # Use your cluster's specific storage class
+    size: 10Gi

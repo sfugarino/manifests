@@ -1,0 +1,50 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dashboard-tls-cert
+  namespace: kubernetes-dashboard
+spec:
+  # Secret where cert-manager will store the certificate
+  secretName: dashboard-tls-secret
+  
+  # Duration and renewal settings
+  duration: 2160h # 90 days
+  renewBefore: 360h # 15 days before expiry
+  
+  # Subject configuration
+  subject:
+    organizations:
+      - My Organization
+  
+  # Common name
+  commonName: dashboard.local
+  
+  # DNS names the certificate should be valid for
+  dnsNames:
+    - dashboard.local
+  
+  # Issuer reference
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+    group: cert-manager.io
+  
+  # Private key configuration
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+    rotationPolicy: Always
+  
+  # Usages for the certificate
+  usages:
+    - server auth
+    - client auth
+  
+  # For LoadBalancer without Ingress, use DNS-01 or HTTP-01 challenge
+  # DNS-01 is preferred when you don't have Ingress
+  # Configure your DNS provider
+  # Example for Cloudflare:
+  # issuerRef:
+  #   name: letsencrypt-dns
+  #   kind: ClusterIssuer

@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-postgres
+provisioner: nfs.csi.k8s.io # This name depends on the installed provisioner
+parameters:
+  server: 192.168.1.67 # IP address of your NFS server
+  share: /mnt/postgres # The specific exported path on the server
+reclaimPolicy: Delete # Can be "Delete" (default) or "Retain"
+volumeBindingMode: Immediate # Determines when volume provisioning should occur
