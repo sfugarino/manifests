@@ -6,4 +6,3 @@ Supports multiple tools and Plugins. 
 An Interactive UI and an HTTP-API for managing and monitoring. 
 Rich support for a variety of languages like ( Python, Java, Go, Ruby, C#, etc ).
 
-Full article published here https://pavan1999-kumar.medium.com/deploying-rabbitmq-on-kubernetes-using-rabbitmq-cluster-operator-ef99f7a4e417
