@@ -1,0 +1,60 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "creationTimestamp": "2026-01-25T20:39:46Z",
+        "deletionTimestamp": "2026-01-25T21:55:35Z",
+        "labels": {
+            "k8slens-edit-resource-version": "v1",
+            "kubernetes.io/metadata.name": "open-webui"
+        },
+        "name": "open-webui",
+        "resourceVersion": "3141790",
+        "uid": "a8dedd36-6445-4e62-a4c7-9c262a98c6ce"
+    },
+    "spec": {
+        "finalizers": [
+            "kubernetes"
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastTransitionTime": "2026-01-25T21:55:40Z",
+                "message": "All resources successfully discovered",
+                "reason": "ResourcesDiscovered",
+                "status": "False",
+                "type": "NamespaceDeletionDiscoveryFailure"
+            },
+            {
+                "lastTransitionTime": "2026-01-25T21:55:40Z",
+                "message": "All legacy kube types successfully parsed",
+                "reason": "ParsedGroupVersions",
+                "status": "False",
+                "type": "NamespaceDeletionGroupVersionParsingFailure"
+            },
+            {
+                "lastTransitionTime": "2026-01-25T22:23:31Z",
+                "message": "All content successfully deleted, may be waiting on finalization",
+                "reason": "ContentDeleted",
+                "status": "False",
+                "type": "NamespaceDeletionContentFailure"
+            },
+            {
+                "lastTransitionTime": "2026-01-25T22:23:31Z",
+                "message": "Some resources are remaining: helmcharts.helm.cattle.io has 1 resource instances",
+                "reason": "SomeResourcesRemain",
+                "status": "True",
+                "type": "NamespaceContentRemaining"
+            },
+            {
+                "lastTransitionTime": "2026-01-25T22:23:31Z",
+                "message": "Some content in the namespace has finalizers remaining: wrangler.cattle.io/on-helm-chart-remove in 1 resource instances",
+                "reason": "SomeFinalizersRemain",
+                "status": "True",
+                "type": "NamespaceFinalizersRemaining"
+            }
+        ],
+        "phase": "Terminating"
+    }
+}

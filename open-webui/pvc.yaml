@@ -4,9 +4,10 @@ metadata:
   name: nfs-open-webui-pvc
   namespace: open-webui
 spec:
+  volumeMode: Filesystem
   resources:
     requests:
       storage: 10Gi
   accessModes:
     - ReadWriteMany
-  storageClassName: nfs-client
+  storageClassName: webui-nfs-client

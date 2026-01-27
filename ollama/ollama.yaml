@@ -36,7 +36,7 @@ spec:
             nvidia.com/gpu: 1
         volumeMounts:
         - name: ollama-data
-          mountPath: /home/ubuntu/.ollama
+          mountPath: /root/.ollama # Mount the PVC to the directory where Ollama stores models
       tolerations:
       - key: nvidia.com/gpu
         operator: Exists

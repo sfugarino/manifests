@@ -63,4 +63,5 @@ spec:
       volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: open-webui-pvc
+          claimName: nfs-open-webui-pvc
+
