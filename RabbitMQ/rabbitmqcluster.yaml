@@ -1,0 +1,34 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmqcluster
+spec:
+  replicas: 2
+  persistence:
+    storageClassName: local-path
+    storage: 20Gi
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "rabbitmq" 
+            operator: "In"
+            values:
+            - "true" 
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 2Gi
+  rabbitmq:
+          additionalConfig: |
+                  log.console.level = info
+                  channel_max = 700
+                  default_user= admin 
+                  default_pass = admin
+                  default_user_tags.administrator = true
+  service:
+    type: LoadBalancer
