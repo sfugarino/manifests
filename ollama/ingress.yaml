@@ -1,0 +1,18 @@
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: ollama-ingress
+    namespace: ollama
+  spec:
+    ingressClassName: nginx
+    rules:
+      - host: ollama.local
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: ollama
+                  port:
+                    number: 11434
+              path: /
