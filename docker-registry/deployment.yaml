@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-registry
+  namespace: docker-registry
+spec:
+  selector:
+    matchLabels:
+      app: docker-registry
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: docker-registry
+    spec:
+      containers:
+      - name: registry
+        image: registry:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        volumeMounts:
+        - name: repo-volume
+          mountPath: "/var/lib/registry"
+        - name: cert-volume
+          mountPath: "/certs"
+          readOnly: true
+        - name: auth-volume
+          mountPath: "/auth"
+          readOnly: true
+        env:
+        - name: REGISTRY_AUTH
+          value: "htpasswd"
+        - name: REGISTRY_AUTH_HTPASSWD_REALM
+          value: "Registry Realm"
+        - name: REGISTRY_AUTH_HTPASSWD_PATH
+          value: "/auth/htpasswd"
+        - name: REGISTRY_HTTP_TLS_CERTIFICATE
+          value: "/certs/tls.crt"
+        - name: REGISTRY_HTTP_TLS_KEY
+          value: "/certs/tls.key"
+      volumes:
+      - name: repo-volume
+        persistentVolumeClaim:
+          claimName: docker-registry-pvc
+      - name: cert-volume
+        secret: 
+          secretName: docker-registry-tls
+      - name: auth-volume
+        secret:
+          secretName: docker-registry-auth
+
