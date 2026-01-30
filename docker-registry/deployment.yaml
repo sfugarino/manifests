@@ -38,13 +38,15 @@ spec:
           value: "/certs/tls.crt"
         - name: REGISTRY_HTTP_TLS_KEY
           value: "/certs/tls.key"
+        - name: REGISTRY_STORAGE_DELETE_ENABLED
+          value: "true"
       volumes:
       - name: repo-volume
         persistentVolumeClaim:
           claimName: docker-registry-pvc
       - name: cert-volume
         secret: 
-          secretName: docker-registry-tls
+          secretName: registry-service-tls-secret
       - name: auth-volume
         secret:
           secretName: docker-registry-auth
