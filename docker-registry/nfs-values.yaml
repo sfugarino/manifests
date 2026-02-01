@@ -1,0 +1,11 @@
+# values.yaml
+nfs:
+  server: 192.168.1.67
+  path: /mnt/ssd/docker-registry 
+
+storageClass:
+  name: docker-nfs-client
+  provisionerName: k8s-sigs.io/docker-nfs-subdir-external-provisioner 
+
+nodeSelector:
+  nfs-provisioner: "true"

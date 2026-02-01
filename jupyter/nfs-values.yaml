@@ -1,0 +1,11 @@
+# values.yaml
+nfs:
+  server: 192.168.1.67
+  path: /mnt/ssd/jupyter
+
+storageClass:
+  name: jubhub-nfs-client
+  provisionerName: k8s-sigs.io/juphub-nfs-subdir-external-provisioner 
+
+nodeSelector:
+  nfs-provisioner: "true"

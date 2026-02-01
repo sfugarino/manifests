@@ -13,6 +13,8 @@ spec:
       labels:
         app: docker-registry
     spec:
+      nodeSelector:
+       docker-registry: "true"
       containers:
       - name: registry
         image: registry:latest
