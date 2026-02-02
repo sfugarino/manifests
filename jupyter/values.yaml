@@ -1,7 +1,7 @@
 # the proxy pod.
 hub:
   nodeSelector:
-    jupyter: "true"
+    kubernetes.io/hostname: turing-five
   db:
     pvc:
       accessModes:
@@ -15,13 +15,13 @@ hub:
 scheduling:
   userScheduler:
     nodeSelector: 
-      jupyter: "true"
+      kubernetes.io/hostname: turing-five
 
 # prePuller relates to the hook|continuous-image-puller DaemonsSets
 prePuller:
   hook:
     nodeSelector: 
-     jupyter: "true"
+      kubernetes.io/hostname: turing-five
 
 ingress:
   enabled: false

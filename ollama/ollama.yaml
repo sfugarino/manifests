@@ -16,7 +16,7 @@ spec:
         name: ollama
     spec:
       nodeSelector:
-        node-type: jetson-agx
+        kubernetes.io/hostname: turing-six
       containers:
       - name: ollama
         image: ollama/ollama:latest
