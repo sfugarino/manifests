@@ -11,6 +11,14 @@ hub:
   service:
     type: ClusterIP
 
+singleuser:
+  profileList:
+    - display_name: "GPU Server"
+      description: "Spawns a notebook server with access to a GPU"
+      kubespawner_override:
+        extra_resource_limits:
+          nvidia.com/gpu: "1"
+
 # scheduling relates to the user-scheduler pods and user-placeholder pods.
 scheduling:
   userScheduler:
