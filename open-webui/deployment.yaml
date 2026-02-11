@@ -27,6 +27,18 @@ spec:
           value: "False" # no need to login to Open WebUI
         - name: ENABLE_RAG_WEB_SEARCH
           value: "True"
+        - name: ENABLE_OTEL
+          value: "true"
+        - name: ENABLE_OTEL_TRACES
+          value: "true"
+        - name: ENABLE_OTEL_METRICS
+          vaLUE: "true"
+        - name: OTEL_EXPORTER_OTLP_INSECURE
+          value: "true" # Use insecure connection for OTLP
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://198.168.1.101:4317 # Connect to Grafana OTel collector
+        - name: OTEL_SERVICE_NAME
+          value: open-webui
         ports:
         - containerPort: 8080
           name: web-ui

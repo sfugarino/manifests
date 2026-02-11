@@ -1,10 +1,10 @@
 # values.yaml
 nfs:
   server: 192.168.1.83
-  path: /mnt/ssd/docker-registry 
+  path: /mnt/ssd/postgres 
 
 storageClass:
-  name: docker-nfs-client
+  name: nfs-client
   provisionerName: k8s-sigs.io/docker-nfs-subdir-external-provisioner 
 
 nodeSelector:

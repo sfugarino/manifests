@@ -1,6 +1,6 @@
 # values.yaml
 nfs:
-  server: 192.168.1.67
+  server: 192.168.1.83
   path: /mnt/ssd/jupyter
 
 storageClass:

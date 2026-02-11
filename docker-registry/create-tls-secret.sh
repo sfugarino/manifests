@@ -7,7 +7,7 @@ mkdir -p "$CERT_DIR"
 
 rm -rf "$CERT_DIR"/*
 
-openssl req -x509 -newkey rsa:4096 -days 365 -nodes -sha256 -keyout certs/tls.key -out certs/tls.crt -subj "/CN=turing-registry" -addext "subjectAltName=DNS:turing-registry"
+openssl req -x509 -newkey rsa:4096 -days 365 -nodes -sha256 -keyout certs/tls.key -out certs/tls.crt -subj "/CN=registry-service" -addext "subjectAltName=DNS:registry-service"
 
 if ! kubectl get namespace "$NAMESPACE" >/dev/null 2>&1; then
     echo "Namespace '$NAMESPACE' does not exist. Creating it now."

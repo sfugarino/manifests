@@ -10,4 +10,4 @@ spec:
       storage: 10Gi
   accessModes:
     - ReadWriteMany
-  storageClassName: webui-nfs-client
+  storageClassName: open-webui-nfs-client

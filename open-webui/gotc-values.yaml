@@ -1,0 +1,39 @@
+cluster:
+  # -- The name for this cluster.
+  # @section -- Cluster
+  name: "default"
+
+# values.yaml
+grafana-alloy:
+  enabled: true
+  # Configure OTLP receivers to receive data from your applications
+  otlp:
+    enabled: true
+    grpc:
+      enabled: true
+    http:
+      enabled: true
+
+  # Configure exporters to send data to your backend
+  config:
+    exporters:
+      # Example for self-managed backends (Loki, Mimir, Tempo)
+      # otlp/grafana:
+      #   endpoint: "<your-grafana-backend-endpoint>"
+      #   auth:
+      #     basic_auth:
+      #       username: $(GRAFANA_CLOUD_USERNAME)
+      #       password: $(GRAFANA_CLOUD_PASSWORD)
+
+      # If using the Helm chart's built-in Prometheus/Loki/Tempo (for local testing)
+      # the exporters are usually configured automatically by the chart.
+
+# If you are using Grafana Cloud, you can follow the in-UI guide which provides a custom Helm command with appropriate values
+# The built-in K8s monitoring features (metrics, logs, events) can be enabled here too.
+kubernetes-monitoring:
+  metrics:
+    enabled: true
+  logs:
+    enabled: true
+  events:
+    enabled: true

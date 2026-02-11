@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ollama
+  name: ollama2
   namespace: ollama
 spec:
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      name: ollama
+      name: ollama2
   template:
     metadata:
       labels:
-        name: ollama
+        name: ollama2
     spec:
       nodeSelector:
-        kubernetes.io/hostname: turing-six
+        kubernetes.io/hostname: turing-five
       containers:
       - name: ollama
         image: ollama/ollama:latest
@@ -44,7 +44,7 @@ spec:
       volumes:
       - name: ollama-data
         persistentVolumeClaim:
-          claimName: ollama-pvc
+          claimName: ollama2-pvc
       tolerations:
       - key: nvidia.com/gpu
         operator: Exists
@@ -53,12 +53,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ollama
+  name: ollama2
   namespace: ollama
 spec:
   type: LoadBalancer
   selector:
-    name: ollama
+    name: ollama2
   ports:
   - port: 11434
     name: http

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llama-cpp-deploy
+  namespace: llama-cpp
+  labels:
+    app: llama-cpp-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llama-cpp-app
+  template:
+    metadata:
+      labels:
+        app: llama-cpp-app
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: turing-six
+      containers:
+        - name: llama-cpp-container
+          image: cu128:r36.4.3-cu128-24.04
+          command:
+            [
+              "/bin/bash",
+              "-c",
+              "llama-server --batch-size 2048 --ubatch-size 512 
+              -c 16384 -cd 4096 -m /model/google/gemma-3-27b-it-qat-q4_0-gguf/gemma-3-27b-it-q4_0.gguf 
+              -md /model/google/gemma-3-1b-it-qat-q4_0-gguf/gemma-3-1b-it-q4_0.gguf 
+              -ngld 999 -ngl 999 --draft-max 3 --draft-min 3 -t 24 -fa -ctv q8_0 -ctk q8_0 
+              --port 10000 --host 0.0.0.0 --metrics --parallel 1 --no-webui"
+            ]
+          ports:
+            - containerPort: 10000
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+          volumeMounts:
+            - name: model-storage
+              mountPath: /model
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      volumes:
+        - name: model-storage
+          persistentVolumeClaim:
+            claimName: llama-cpp-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: llama-cpp-service
+  namespace: llama-cpp
+  labels:
+    app: llama-cpp-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: llama-cpp-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 10000
+      targetPort: 10000

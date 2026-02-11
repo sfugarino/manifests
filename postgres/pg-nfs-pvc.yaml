@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-postgres-pvc
+  namespace: keycloak
 spec:
   storageClassName: nfs-client # Matches the name in the StorageClass metadata
   accessModes:
