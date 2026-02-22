@@ -1,0 +1,33 @@
+mode: standalone
+
+rootUser: "admin"
+rootPassword: "password"
+
+replicas: 2
+
+persistence:
+#  enabled: true
+#  existingClaim: s3-pvc
+#  storageClass: "minio-nfs-client"
+#  accessMode: ReadWriteMany
+  size: 100Gi
+
+resources:
+  requests:
+    memory: 4Gi
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    includeNode: true
+
+
+consoleService:
+  type: LoadBalancer
+  port: 9001
+
+postJob: {}
+ 
+nodeSelector: 
+  kubernetes.io/hostname: turing-four
+

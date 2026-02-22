@@ -1,0 +1,11 @@
+# nfs-values.yaml
+nfs:
+  server: 192.168.1.83
+  path: /mnt/ssd/vllm
+
+storageClass:
+  name: vllm-nfs-client
+  provisionerName: k8s-sigs.io/vllm-nfs-subdir-external-provisioner 
+
+nodeSelector:
+  nfs-provisioner: "true"

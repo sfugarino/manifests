@@ -1,0 +1,20 @@
+servingEngineSpec:
+  runtimeClassName: ""
+  modelSpec:
+  - name: "llama3"
+    repository: "dustynv/vllm"
+    tag: "r36.4-cu129-24.04"
+    modelURL: "meta-llama/Llama-3.2-1B-Instruct"
+    replicaCount: 1
+    requestCPU: 6
+    requestMemory: "64Mi"
+    pvcStorage: "50Gi"
+    pvcAccessMode:
+      - ReadWriteOnce
+
+    vllmConfig:
+      enableChunkedPrefill: false
+      enablePrefixCaching: false
+      maxModelLen: 4096
+      dtype: "bfloat16"
+      extraArgs: ["--disable-log-requests", "--gpu-memory-utilization", "0.5"]

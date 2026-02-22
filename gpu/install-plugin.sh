@@ -9,4 +9,4 @@ helm upgrade -i nvdp nvdp/nvidia-device-plugin \
    --namespace nvidia-device-plugin  \
    --create-namespace \
    --version 0.18.2 \
-   --set config.name=time-slicing-config 
+   --set config.name=time-slicing-config

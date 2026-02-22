@@ -11,13 +11,26 @@ hub:
   service:
     type: LoadBalancer
 
-#singleuser:
+
+singleuser:
+  extraResource:
+    limits:
+      nvidia.com/gpu: "1" 
+  nodeSelector:
+    kubernetes.io/hostname: turing-five
+  storage:
+    type: dynamic
+    capacity: 2Gi
+    dynamic:
+      storageClass: jubhub-nfs-client
 #  profileList:
 #    - display_name: "GPU Server"
 #      description: "Spawns a notebook server with access to a GPU"
 #      kubespawner_override:
 #        extra_resource_limits:
-#          nvidia.com/gpu: "1"
+#          nvidia.com/gpu: "1" 
+#        nodeSelector:
+#          kubernetes.io/hostname: turing-five                 
 
 # scheduling relates to the user-scheduler pods and user-placeholder pods.
 scheduling:
@@ -37,5 +50,3 @@ ingress:
 
 httpRoute:
   enabled: false
-
-
