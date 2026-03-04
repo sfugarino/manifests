@@ -1,0 +1,31 @@
+global:
+  namespace: vault
+
+server:
+   affinity:
+     nodeAffinity:
+       requiredDuringSchedulingIgnoredDuringExecution:
+         nodeSelectorTerms:
+         - matchExpressions:
+           - key: kubernetes.io/hostname
+             operator: In
+             values:
+             - turing-two
+   ha:
+     enabled: false
+   dataStorage:
+     enabled: true
+     size: 1Gi    # Storage size for Vault data
+     storageClass: local-path
+   standalone:
+     enabled: true
+   auditStorage:
+     enabled: true
+   serviceAccount:
+     create: true
+     createSecret: true
+injector:
+  enabled: true
+ui:
+  enabled: true
+  serviceType: LoadBalancer
