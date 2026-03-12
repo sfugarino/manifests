@@ -6,7 +6,7 @@ kubectl label node turing-six feature.node.kubernetes.io/cpu-model.vendor_id=NVI
  
 
 helm upgrade -i nvdp nvdp/nvidia-device-plugin \
-   --namespace nvidia-device-plugin  \
+   --namespace nvdp  \
    --create-namespace \
-   --version 0.18.2 \
-   --set config.name=time-slicing-config
+   --version 0.17.4 \
+   --values values.yaml

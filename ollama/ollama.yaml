@@ -27,6 +27,8 @@ spec:
           value: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
         - name: NVIDIA_DRIVER_CAPABILITIES
           value: compute,utility
+        - name: DEVICE_ID
+          value: "tegra"  # SPECIFY THE DEVICE ID
         ports:
         - name: http
           containerPort: 11434

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: time-slicing-config
-  namespace: nvidia-device-plugin
+  namespace: nvdp
 data:
   config.yaml: |-
     version: v1

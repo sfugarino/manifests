@@ -10,6 +10,10 @@ spec:
       port: 8080
       targetPort: http
       name: http
+    - protocol: TCP
+      port: 9000
+      targetPort: management
+      name: management
   selector:
     app: keycloak
   type: LoadBalancer
@@ -99,6 +103,8 @@ spec:
               containerPort: 7800
             - name: jgroups-fd
               containerPort: 57800
+            - name: management
+              containerPort: 9000
           startupProbe:
             httpGet:
               path: /health/started
