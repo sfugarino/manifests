@@ -157,7 +157,7 @@ The certificate is configured for:
 - **Common Name**: localhost
 - **Subject Alternative Names**:
   - `127.0.0.1`
-  - `192.168.1.115` (internal IP)
+  - `192.168.1.115` (external IP)
   - `azurite.azurite` (K8s DNS - namespace local)
   - `azurite.azurite.svc.cluster.local` (K8s FQDN)
   - `localhost`
@@ -245,37 +245,6 @@ dotnet run
 # The queue was created.
 # Message sent with ID: <UUID>
 # Received message: Hello, Azure Queue Storage!
-```
-
-#### Running Inside Kubernetes (as a Job)
-
-Create a Kubernetes Job to run the test:
-
-```yaml
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: azurite-test-job
-  namespace: azurite
-spec:
-  template:
-    spec:
-      containers:
-      - name: test
-        image: mcr.microsoft.com/dotnet/sdk:10.0
-        workingDir: /app
-        command:
-        - dotnet
-        - run
-        volumeMounts:
-        - name: test-code
-          mountPath: /app
-      volumes:
-      - name: test-code
-        configMap:
-          name: test-program
-      restartPolicy: Never
-  backoffLimit: 3
 ```
 
 ### Customizing the Test Program
