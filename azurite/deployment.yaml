@@ -33,6 +33,8 @@ spec:
         - containerPort: 10002
         args:
           - azurite
+          - '--location'
+          - '/data'
           - '--blobHost'
           - '0.0.0.0'
           - '--blobPort'
@@ -57,6 +59,7 @@ spec:
           - '/tmp/debug.log'
           - '--loose'
           - '--disableProductStyleUrl'
+          - '--skipApiVersionCheck'
         volumeMounts:
         - name: azurite-persistent-storage
           mountPath: /data
