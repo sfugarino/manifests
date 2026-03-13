@@ -18,6 +18,8 @@ spec:
       labels:
         app: open-webui
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: turing-four
       containers:
       - name: open-webui
         image: ghcr.io/open-webui/open-webui:v0.5.16
@@ -32,7 +34,7 @@ spec:
         - name: ENABLE_OTEL_TRACES
           value: "true"
         - name: ENABLE_OTEL_METRICS
-          vaLUE: "true"
+          value: "true"
         - name: OTEL_EXPORTER_OTLP_INSECURE
           value: "true" # Use insecure connection for OTLP
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
@@ -75,5 +77,5 @@ spec:
       volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: nfs-open-webui-pvc
+          claimName: open-webui-pvc
 

@@ -1,0 +1,6 @@
+global:
+  nodeSelector:
+    differentpla.net/longhorn-storage-node: "true"
+service:
+  ui:
+    type: LoadBalancer

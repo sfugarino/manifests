@@ -1,0 +1,18 @@
+# Source - https://stackoverflow.com/q/69025500
+# Posted by SVD
+# Retrieved 2026-03-13, License - CC BY-SA 4.0
+
+---
+  apiVersion: "v1"
+  kind: "PersistentVolumeClaim"
+  metadata: 
+    name: "mongodb-pvc"
+    namespace: "asp-net"
+  spec: 
+    accessModes: 
+      - ReadWriteOnce
+    resources: 
+      requests: 
+        storage: 15Gi
+    storageClassName: local-path
+

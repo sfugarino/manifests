@@ -16,7 +16,7 @@ spec:
         app: storage-azurite
     spec:
       nodeSelector:
-        kubernetes.io/hostname: radxa-dragon-q6a
+        kubernetes.io/hostname: turing-four
       volumes:
       - name: azurite-persistent-storage
         persistentVolumeClaim:
