@@ -1,0 +1,5 @@
+nfs:
+  server: 192.168.1.83
+  
+nodeSelector:
+  nfs-provisioner: "true"

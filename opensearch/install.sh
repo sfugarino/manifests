@@ -1,0 +1,1 @@
+helm upgrade --install opensearch opensearch/opensearch -f values.yaml --namespace opensearch --create-namespace

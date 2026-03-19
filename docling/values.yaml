@@ -1,0 +1,41 @@
+#
+# Number of replicas
+replicaCount: 1
+
+# Service configuration
+service:
+  type: LoadBalancer
+
+
+# Scratch storage configuration
+# Docling-serve uses /tmp/docling for temporary document processing
+# Models are pre-baked into the container image
+scratch:
+  # Enable persistent volume for scratch space
+  # Set to true if you want results to persist across pod restarts
+  persistent: true
+
+  # PVC configuration (when persistent: true)
+  pvc:
+    # Storage class for PVC. Empty string "" uses cluster default storage class
+    # Set to "-" to disable dynamic provisioning
+    storageClass: "local-path"
+
+# Node selector for pod assignment
+nodeSelector: 
+  kubernetes.io/host: turing-six
+
+
+# Core environment variables for docling-serve
+# See docs/configuration.md for complete reference
+env:
+
+  # Docling-serve application configuration
+  # Disable Gradio UI by default (API-only focus)
+  # Set to "true" to enable the web UI at /ui
+  enableUI: "true"
+
+  # Device selection: "cpu" or "cuda" (for GPU)
+  # For GPU support, see examples/values-gpu.yaml
+  device: "cuda"
+
