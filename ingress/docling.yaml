@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docling-ingress
+  namespace: docling
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx  # For NGINX Ingress Controller
+  rules:
+  - host: samland.example.com
+    http:
+      paths:
+      - path: /docling
+        pathType: Prefix
+        backend:
+          service:
+            name: docling-serve
+            port:
+              number: 5001

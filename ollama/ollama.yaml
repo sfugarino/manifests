@@ -19,7 +19,7 @@ spec:
         kubernetes.io/hostname: turing-six
       containers:
       - name: ollama
-        image: ollama/ollama:latest
+        image: ollama/ollama:0.18.0
         env:
         - name: PATH
           value: /usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -47,10 +47,6 @@ spec:
       - name: ollama-data
         persistentVolumeClaim:
           claimName: ollama-pvc
-      tolerations:
-      - key: nvidia.com/gpu
-        operator: Exists
-        effect: NoSchedule
 ---
 apiVersion: v1
 kind: Service

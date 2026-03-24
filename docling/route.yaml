@@ -1,0 +1,18 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: docling
+  namespace: docling
+spec:
+  parentRefs:
+  - name: docling
+  hostnames:
+  - "docling.example.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: docling-serve
+      port: 5001

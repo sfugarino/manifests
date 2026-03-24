@@ -9,26 +9,26 @@ hub:
   db:
     pvc:
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       storage: 10Gi
-      storageClassName: jubhub-nfs-client
+      storageClassName: local-path
   service:
     type: LoadBalancer
 
 singleuser:
-  image: 
+  image:
     name: quay.io/jupyter/pytorch-notebook
     tag: cuda12-latest
   extraResource:
     limits:
-      nvidia.com/gpu: "1" 
+      nvidia.com/gpu: "1"
   nodeSelector:
     kubernetes.io/hostname: turing-five
   storage:
     type: dynamic
     capacity: 2Gi
     dynamic:
-      storageClass: jubhub-nfs-client
+      storageClass: local-path
   profileList:
   - display_name: "GPU Server"
     description: "Spawns a notebook server with access to a GPU"

@@ -4,7 +4,7 @@ metadata:
   name: nfs-postgres-pvc
   namespace: keycloak
 spec:
-  storageClassName: nfs-client # Matches the name in the StorageClass metadata
+  storageClassName: postgres-nfs-client # Matches the name in the StorageClass metadata
   accessModes:
     - ReadWriteMany # A common access mode for NFS
   resources:

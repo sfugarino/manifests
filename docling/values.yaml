@@ -23,7 +23,7 @@ scratch:
 
 # Node selector for pod assignment
 nodeSelector: 
-  kubernetes.io/host: turing-six
+  kubernetes.io/hostname: turing-six
 
 
 # Core environment variables for docling-serve

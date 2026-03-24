@@ -1,0 +1,35 @@
+
+Step-by-step instructions to get Claude working with Ollama running on a Kubernetes cluster when there is a client mismatch on either the server or client:
+
+1. Ensure your Kubernetes cluster is running and accessible.
+	- Example:
+	  kubectl get nodes
+
+2. Update your Kubernetes Deployment manifest for Ollama:
+	- Edit your deployment YAML and set the Ollama image tag to 0.18.0 (or the latest compatible version).
+	- Apply the updated manifest:
+	  kubectl apply -f ollama.yaml
+
+3. On your local machine, completely uninstall any existing Ollama installation:
+	- For Linux:
+	  sudo rm -rf /usr/local/bin/ollama ~/.ollama
+	  # Or use your package manager if installed that way
+
+4. Set the desired Ollama version in your environment:
+	- Edit your .bashrc file and add:
+	  export OLLAMA_VERSION=0.18.0
+	- Save the file and run:
+	  source ~/.bashrc
+
+5. Install Claude as needed for your workflow.
+	- curl -fsSL https://claude.ai/install.sh | bash
+
+6. Reinstall Ollama on your local machine.
+	- Follow the official installation instructions for your OS, or:
+	  curl -fsSL https://ollama.com/install.sh | sh
+
+7. Change into your source directory:
+	cd /path/to/your/source
+
+8. Run the following command to start Claude:
+	ollama launch claude

@@ -106,7 +106,7 @@ resources:
 scratch:
   # Enable persistent volume for scratch space
   # Set to true if you want results to persist across pod restarts
-  persistent: false
+  persistent: true
 
   # emptyDir configuration (when persistent: false)
   emptyDir:
@@ -181,7 +181,7 @@ env:
   # Docling-serve application configuration
   # Disable Gradio UI by default (API-only focus)
   # Set to "true" to enable the web UI at /ui
-  enableUI: "false"
+  enableUI: "true"
 
   # Load models at boot for faster first request
   # Set to "false" for faster startup but slower first conversion
