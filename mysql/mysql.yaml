@@ -15,12 +15,17 @@ spec:
       labels:
         app: mysql
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: turing-three
       containers:
       - image: mysql:8.0 # Use a specific MySQL image version
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "kepler109!" # !! Change this to a secure password
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass      # The name of your Secret
+              key: password   
         ports:
         - containerPort: 3306
           name: mysql

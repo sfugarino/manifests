@@ -5,7 +5,7 @@ metadata:
   name: flows-pvc
   namespace: langflow
 spec:
-  storageClassName: local-path
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
@@ -15,23 +15,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: tmp-pvc
-  namespace: langflow
-spec:
-  storageClassName: local-path
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
   name: data-pvc
   namespace: langflow
 spec:
-  storageClassName: local-path
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
@@ -44,7 +31,7 @@ metadata:
   name: db-pvc
   namespace: langflow
 spec:
-  storageClassName: local-path
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

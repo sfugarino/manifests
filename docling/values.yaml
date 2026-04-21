@@ -19,11 +19,11 @@ scratch:
   pvc:
     # Storage class for PVC. Empty string "" uses cluster default storage class
     # Set to "-" to disable dynamic provisioning
-    storageClass: "local-path"
+    storageClass: "longhorn"
 
 # Node selector for pod assignment
 nodeSelector: 
-  kubernetes.io/hostname: turing-six
+  kubernetes.io/hostname: turing-seven
 
 
 # Core environment variables for docling-serve

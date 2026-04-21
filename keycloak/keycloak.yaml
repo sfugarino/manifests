@@ -50,6 +50,17 @@ spec:
       labels:
         app: keycloak
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - turing-two
+                      - turing-three
+                      - turing-four
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.5.1
@@ -110,19 +121,19 @@ spec:
               path: /health/started
               port: 9000
             periodSeconds: 1
-            failureThreshold: 600              
+            failureThreshold: 600
           readinessProbe:
             httpGet:
               path: /health/ready
               port: 9000
             periodSeconds: 10
-            failureThreshold: 3              
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /health/live
               port: 9000
             periodSeconds: 10
-            failureThreshold: 3              
+            failureThreshold: 3
           resources:
             limits:
               cpu: 2000m
@@ -149,6 +160,17 @@ spec:
       labels:
         app: postgres
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - turing-two
+                      - turing-three
+                      - turing-four
       containers:
         - name: postgres
           image: mirror.gcr.io/postgres:17
@@ -166,12 +188,13 @@ spec:
               containerPort: 5432
           volumeMounts:
             # Using volume mount for PostgreSQL's data folder as it is otherwise not writable
-            - name: postgres-data
+            - name: postgres-lh-data
               mountPath: /var/lib/postgresql/data
+              subPath: pgdata
       volumes:
-        - name: postgres-data
+        - name: postgres-lh-data
           persistentVolumeClaim:
-            claimName: pg-pvc
+            claimName: pg-pvc-lh
 ---
 apiVersion: v1
 kind: Service

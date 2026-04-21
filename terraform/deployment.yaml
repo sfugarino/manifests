@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: terraform-mcp-server
+  namespace: terraform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: terraform-mcp-server
+  template:
+    metadata:
+      labels:
+        app: terraform-mcp-server
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: turing-seven
+      containers:
+      - name: terraform-mcp
+        image: hashicorp/terraform-mcp-server:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MODE
+          value: "http"
+        - name: MCP_SESSION_MODE
+          value: "stateless"
+        - name: MCP_CORS_MODE
+          value: "strict"
+        - name: TFE_TOKEN
+          value: "0xW9VZJAdWcvJw.atlasv1.Ai3xprf4tT2QKt0ByKEJmkXm0iSAIH1FUsGzbcMBuxAwtb9LsTRo1XTeg1CVogz54PE"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: terraform-mcp-service
+spec:
+  selector:
+    app: terraform-mcp-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

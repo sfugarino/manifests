@@ -14,6 +14,8 @@ spec:
       labels:
         app: nginx
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: turing-two
       containers:
       - name: nginx
         image: nginx:latest

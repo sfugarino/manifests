@@ -88,7 +88,8 @@ langflow:
         value: "/app/db/alembic.log"
       - name: LANGFLOW_UPDATE_STARTER_PROJECTS
         value: "false"
-    nodeSelector: {}
+    nodeSelector: 
+      kubernetes.io/hostname: turing-seven
     tolerations: []
     affinity: {}
     podAnnotations:
@@ -226,7 +227,8 @@ langflow:
       periodSeconds: 10
       timeoutSeconds: 5
       initialDelaySeconds: 5
-    nodeSelector: {}
+    nodeSelector: 
+      kubernetes.io/hostname: turing-seven
 
     tolerations: []
 

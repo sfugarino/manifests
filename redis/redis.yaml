@@ -18,7 +18,7 @@ metadata:
   namespace: redis
 spec:
   serviceName: "redis"
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: redis-server
@@ -40,5 +40,5 @@ spec:
       volumes:
         - name: redis-data
           persistentVolumeClaim:
-             claimName: redis-pvc
+             claimName: redis-longhorn-pvc
 

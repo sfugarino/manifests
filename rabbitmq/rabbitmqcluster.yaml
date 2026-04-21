@@ -6,8 +6,8 @@ metadata:
 spec:
   replicas: 1
   persistence:
-    storageClassName: local-path
-    storage: 20Gi
+    storageClassName: longhorn
+    storage: 50Gi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MinIO on k3s - Install Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f5ef;
+      --bg-accent: #e7efe9;
+      --ink: #12202b;
+      --ink-soft: #425463;
+      --card: #fffdf8;
+      --line: #d5ddcf;
+      --brand: #0e7c66;
+      --brand-2: #f4a259;
+      --code-bg: #13202b;
+      --code-ink: #d7e6ee;
+      --shadow: 0 18px 40px rgba(18, 32, 43, 0.12);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(1200px 500px at 90% -10%, #f9d9b8 0%, rgba(249, 217, 184, 0) 60%),
+                  radial-gradient(900px 480px at -10% 0%, #d6efe6 0%, rgba(214, 239, 230, 0) 58%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 100%);
+      color: var(--ink);
+      font-family: "Space Grotesk", sans-serif;
+      line-height: 1.55;
+    }
+
+    .container {
+      width: min(1080px, 92vw);
+      margin: 0 auto;
+      padding: 2.2rem 0 3rem;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, #ffffff 0%, #f5f8f3 75%);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 2.4rem 1.4rem;
+      margin-bottom: 1.4rem;
+      animation: reveal 700ms ease-out both;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      background: linear-gradient(160deg, rgba(14, 124, 102, 0.15), rgba(244, 162, 89, 0.2));
+      border-radius: 30% 70% 65% 35% / 30% 45% 55% 70%;
+      right: -60px;
+      top: -70px;
+      filter: blur(0.4px);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0 0 0.7rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(1.9rem, 4.6vw, 3rem);
+      max-width: 720px;
+    }
+
+    .lead {
+      max-width: 760px;
+      color: var(--ink-soft);
+      margin: 0 0 1.1rem;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-top: 0.9rem;
+    }
+
+    .badge {
+      border: 1px solid var(--line);
+      background: #fbfbf7;
+      padding: 0.35rem 0.66rem;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      color: #28404f;
+      font-weight: 500;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px rgba(18, 32, 43, 0.06);
+      padding: 1rem;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: reveal 500ms ease-out forwards;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: 90ms;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 150ms;
+    }
+
+    .card:nth-child(4) {
+      animation-delay: 210ms;
+    }
+
+    .card:nth-child(5) {
+      animation-delay: 270ms;
+    }
+
+    .card:nth-child(6) {
+      animation-delay: 330ms;
+    }
+
+    .card h2 {
+      font-size: clamp(1.14rem, 2.2vw, 1.45rem);
+    }
+
+    .card p,
+    .card li {
+      color: #2f4555;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.1rem;
+      margin: 0.5rem 0 0;
+    }
+
+    a {
+      color: #0a6f5a;
+      text-underline-offset: 2px;
+      font-weight: 500;
+    }
+
+    pre {
+      background: var(--code-bg);
+      color: var(--code-ink);
+      border-radius: 12px;
+      border: 1px solid #233744;
+      padding: 0.8rem;
+      overflow-x: auto;
+      margin: 0.65rem 0 0;
+    }
+
+    code {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.88rem;
+    }
+
+    .small {
+      font-size: 0.9rem;
+      color: #415464;
+    }
+
+    .warn {
+      border-left: 4px solid var(--brand-2);
+      background: #fff7ef;
+      padding: 0.75rem 0.8rem;
+      border-radius: 8px;
+      margin-top: 0.65rem;
+      color: #5f4631;
+    }
+
+    .callout {
+      border-left: 4px solid var(--brand);
+      background: #eef8f5;
+      padding: 0.75rem 0.8rem;
+      border-radius: 8px;
+      margin-top: 0.65rem;
+      color: #214f45;
+    }
+
+    @media (min-width: 860px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .span-2 {
+        grid-column: span 2;
+      }
+
+      .hero {
+        padding: 2.7rem 2rem;
+      }
+
+      .card {
+        padding: 1.2rem;
+      }
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Install MinIO on k3s and Access It with AWS SDK</h1>
+      <p class="lead">This page is a web version of the installation instructions in your project README and adds hands-on AWS SDK examples for bucket and object operations against MinIO.</p>
+      <div class="badge-row">
+        <span class="badge">k3s</span>
+        <span class="badge">Helm</span>
+        <span class="badge">MinIO</span>
+        <span class="badge">AWS SDK for .NET</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card span-2">
+        <h2>What MinIO Is</h2>
+        <p>MinIO is a high-performance object storage server that exposes an S3-compatible API. It gives you a local or self-hosted way to work with buckets, objects, and common S3 operations without depending on AWS infrastructure during development.</p>
+        <p>That makes it useful for testing applications that upload files, download files, store generated documents, or manage media assets. If your application already speaks S3, MinIO lets you run the same pattern locally with very little code change.</p>
+        <div class="callout">The AWS SDK can talk to MinIO by pointing the client at the MinIO endpoint, enabling path-style requests, and using the MinIO access key and secret key as credentials.</div>
+      </article>
+
+      <article class="card span-2">
+        <h2>Using AWS SDK Locally</h2>
+        <p>With MinIO running locally or inside k3s, the AWS SDK for .NET can read and write S3-compatible buckets the same way it would against Amazon S3. Typical operations include creating a bucket, uploading an object, downloading an object, and listing available buckets.</p>
+        <p>In practice, local development usually looks like this:</p>
+        <ol>
+          <li>Start MinIO and expose the S3 API on port 9000.</li>
+          <li>Configure the SDK to use the MinIO endpoint instead of AWS.</li>
+          <li>Use MinIO credentials from your Kubernetes secret or local environment variables.</li>
+          <li>Run your application code unchanged apart from endpoint configuration.</li>
+        </ol>
+      </article>
+
+      <article class="card span-2">
+        <h2>Reference Source</h2>
+        <p>Source instructions:</p>
+        <ul>
+          <li><a href="https://github.com/sfugarino/manifests/tree/master/minio" target="_blank" rel="noreferrer">GitHub Repository</a></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>1. Prerequisites</h2>
+        <ul>
+          <li>A running k3s cluster</li>
+          <li>Kubectl configured for the cluster</li>
+          <li>Helm installed</li>
+          <li>Longhorn StorageClass available</li>
+          <li>Node named turing-four if using current nodeSelector</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>2. Add MinIO Helm Repo</h2>
+        <pre><code>helm repo add minio https://charts.min.io/
+helm repo update</code></pre>
+      </article>
+
+      <article class="card">
+        <h2>3. Create Namespace, Secret, and PVC</h2>
+        <pre><code>kubectl create namespace minio --dry-run=client -o yaml | kubectl apply -f -
+kubectl apply -f secret.yaml
+kubectl apply -f pvc.yaml</code></pre>
+      </article>
+
+      <article class="card">
+        <h2>4. Install MinIO</h2>
+        <pre><code>chmod +x install.sh
+./install.sh</code></pre>
+        <p class="small">The script runs Helm upgrade/install with values from values.yaml.</p>
+      </article>
+
+      <article class="card span-2">
+        <h2>5. Verify and Access Console</h2>
+        <pre><code>kubectl -n minio get pods
+kubectl -n minio get svc
+kubectl -n minio get pvc s3-pvc</code></pre>
+        <pre><code>kubectl -n minio get svc minio-console</code></pre>
+        <p>If your cluster does not provide external LoadBalancer IPs, use:</p>
+        <pre><code>kubectl -n minio port-forward svc/minio-console 9001:9001</code></pre>
+        <p>Then open <a href="http://localhost:9001">http://localhost:9001</a>.</p>
+        <div class="warn">Default credentials from secret.yaml are weak and should be changed before non-local use.</div>
+      </article>
+
+      <article class="card span-2">
+        <h2>AWS SDK for .NET (C#) with MinIO</h2>
+        <p>MinIO is S3-compatible, so the AWS SDK for .NET works with a custom service URL and path-style addressing.</p>
+        <h3>Install SDK</h3>
+        <pre><code>dotnet new console -n MinioS3Demo
+cd MinioS3Demo
+dotnet add package AWSSDK.S3</code></pre>
+
+        <h3>Example: create bucket, write object, read object</h3>
+        <pre><code>using Amazon;
+using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Util;
+
+var endpoint = "http://127.0.0.1:9000";
+var accessKey = Environment.GetEnvironmentVariable("MINIO_ROOT_USER") ?? "admin";
+var secretKey = Environment.GetEnvironmentVariable("MINIO_ROOT_PASSWORD") ?? "password";
+
+var config = new AmazonS3Config
+{
+    ServiceURL = endpoint,
+    ForcePathStyle = true,
+    AuthenticationRegion = "us-east-1"
+};
+
+using var s3 = new AmazonS3Client(
+    new BasicAWSCredentials(accessKey, secretKey),
+    config
+);
+
+var bucketName = "demo-bucket";
+var objectKey = "hello.txt";
+
+if (!await AmazonS3Util.DoesS3BucketExistV2Async(s3, bucketName))
+{
+    await s3.PutBucketAsync(new PutBucketRequest
+    {
+        BucketName = bucketName
+    });
+}
+
+await s3.PutObjectAsync(new PutObjectRequest
+{
+    BucketName = bucketName,
+    Key = objectKey,
+    ContentBody = "Hello from MinIO via AWS SDK for .NET"
+});
+
+var objectResponse = await s3.GetObjectAsync(new GetObjectRequest
+{
+    BucketName = bucketName,
+    Key = objectKey
+});
+
+using var reader = new StreamReader(objectResponse.ResponseStream);
+var content = await reader.ReadToEndAsync();
+Console.WriteLine($"Read object: {content}");
+
+var buckets = await s3.ListBucketsAsync();
+Console.WriteLine("Buckets:");
+foreach (var bucket in buckets.Buckets)
+{
+    Console.WriteLine($"- {bucket.BucketName}");
+}</code></pre>
+
+        <div class="callout">If MinIO runs inside k3s without external access, port-forward the S3 API service on port 9000 to localhost first, then use that URL in the C# client.</div>
+      </article>
+
+      <article class="card span-2">
+        <h2>Uninstall</h2>
+        <pre><code>chmod +x uninstall.sh
+./uninstall.sh</code></pre>
+        <p class="small">Or uninstall manually with Helm and kubectl as documented in README.MD.</p>
+      </article>
+    </section>
+  </div>
+</body>
+</html>

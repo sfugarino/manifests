@@ -128,7 +128,7 @@ scratch:
 
 # Node selector for pod assignment
 nodeSelector: 
-  kubernetes.io/host: turing-six
+  kubernetes.io/host: turing-seven
 
 # Tolerations for pod assignment
 tolerations: []
